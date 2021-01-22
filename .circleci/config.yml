@@ -157,24 +157,28 @@ jobs:
               --request PUT --data "$BACKEND_URL" https://api.memstash.io/values/backend_url
       # Here's where you will add some code to rollback on failure      
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "25:62:56:b9:d8:ec:1d:f2:5b:e5:92:4e:60:ed:7c:1b"
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible curl
+            pip3 install awscli
+            
+      - run:
+          name: Configure server
+          command: |           
+            echo $(curl -H "token: ce874b2c-9ce6-4944-9e6b-dcfa6830bada" --request GET https://api.memstash.io/values/backend_url) >> .circleci/ansible/inventory.txt
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+      # Here's where you will add some code to rollback on failure      
 
 #   run-migrations:
 #     docker:
@@ -307,8 +311,11 @@ workflows:
           filters:
             branches:
               only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+          filters:
+            branches:
+              only: [master]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
