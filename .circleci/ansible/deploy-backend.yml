@@ -5,7 +5,7 @@
   user: ubuntu
   gather_facts: false
   vars:
-    environment:
+    environment_config:
       TYPEORM_CONNECTION: "{{ lookup('env','TYPEORM_CONNECTION') }}"
       TYPEORM_HOST: "{{ lookup('env','TYPEORM_HOST') }}"
       TYPEORM_PORT: 5432
