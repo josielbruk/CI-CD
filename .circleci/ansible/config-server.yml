@@ -6,7 +6,7 @@
   gather_facts: false
   vars:
     environment_config:        
-      ENVIRONMENT: "{{ lookup('env','ENVIRONMENT') }}"
+      ENVIRONMENT: "production"
       TYPEORM_MIGRATIONS: "{{ lookup('env','TYPEORM_MIGRATIONS') }}"
       TYPEORM_ENTITIES: "{{ lookup('env','TYPEORM_ENTITIES') }}"
       TYPEORM_CONNECTION: "{{ lookup('env','TYPEORM_CONNECTION') }}"
