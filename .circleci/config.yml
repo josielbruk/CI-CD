@@ -67,6 +67,18 @@ jobs:
              npm install
              
              npm run build
+      - run:
+          name: Copy compiled backend
+          command: |
+            mkdir /tmp/workspace
+            cp ./backend/package.json /tmp/workspace/
+            cd backend/dist
+            tar -zcvf /tmp/workspace/backend.tar.gz ./
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - backend.tar.gz
+            - package.json
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -170,8 +182,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "25:62:56:b9:d8:ec:1d:f2:5b:e5:92:4e:60:ed:7c:1b"
-      # - attach_workspace:
-      #     at: ~/
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -221,8 +233,7 @@ jobs:
       - image: python:3.8.6-alpine3.12
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
+      
       - run:
           name: Install dependencies
           become: true
@@ -237,18 +248,18 @@ jobs:
                 --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                 --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
+            echo "${API_URL}" >> frontend/.env
       - run:
           name: Deploy frontend objects
           command: |
             export API_URL=`cat API_URL`
-            cd frontend
-            npm install
+            cd frontend            
             npm update
             npm run build
-            npm audit fix --audit-level=critical --force
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 sync dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+            aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
+            # npm audit fix --audit-level=critical --force
+            # tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            # aws s3 sync dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations
       - destroy-environment 
            
@@ -261,7 +272,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "25:62:56:b9:d8:ec:1d:f2:5b:e5:92:4e:60:ed:7c:1b"
-      
+      - attach_workspace:
+          at: /tmp/workspac
       - run:
           name: Install dependencies
           command: |
