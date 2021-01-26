@@ -182,7 +182,7 @@ jobs:
           name: Configure server
           command: |           
             echo $(curl -H "token: ce874b2c-9ce6-4944-9e6b-dcfa6830bada" --request GET https://api.memstash.io/values/backend_url) >> .circleci/ansible/inventory.txt
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/config-server.yml
       - destroy-environment      
 
   run-migrations:
