@@ -2,8 +2,4 @@
 [URL02] - http://udapeople-0d578cd.s3-website.eu-west-2.amazonaws.com/index.html#/employees
 [URL03] - dow3wma3g53rp.cloudfront.net
 [URL04] - ec2-3-10-118-180.eu-west-2.compute.amazonaws.com:3030
-<<<<<<< HEAD
 [URL05] - http://ec2-52-56-32-23.eu-west-2.compute.amazonaws.com
-=======
-[URL05] - http://ec2-52-56-32-23.eu-west-2.compute.amazonaws.com
->>>>>>> be992fa9a3408c4ace3171c84a424465fff7f5fc
