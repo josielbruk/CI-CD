@@ -252,10 +252,13 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            export API_URL=`cat API_URL`
+            
             cd frontend            
             npm update
             npm run build
+      - run:
+          name: Copy files to S3
+          command: |
             aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
             # npm audit fix --audit-level=critical --force
             # tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
@@ -273,7 +276,7 @@ jobs:
           fingerprints:
             - "25:62:56:b9:d8:ec:1d:f2:5b:e5:92:4e:60:ed:7c:1b"
       - attach_workspace:
-          at: /tmp/workspac
+          at: /tmp/workspace
       - run:
           name: Install dependencies
           command: |
@@ -282,7 +285,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            tar -C backend -czvf artifact.tar.gz .
+            # tar -C backend -czvf artifact.tar.gz .
             echo $(curl -H "token: ce874b2c-9ce6-4944-9e6b-dcfa6830bada" --request GET https://api.memstash.io/values/backend_url) >> .circleci/ansible/inventory.txt
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       - revert-migrations
