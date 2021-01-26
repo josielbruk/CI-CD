@@ -34,7 +34,7 @@ commands:
                 npm install
                 npm run migration:revert
             fi
-   write-envvars-file:
+  write-envvars-file:
     description: Command used for creating env file
     steps:
       - run:
