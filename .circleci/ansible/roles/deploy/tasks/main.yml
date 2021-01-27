@@ -17,7 +17,11 @@
     src: /tmp/workspace/package.json
     dest: /home/ubuntu/app/
     owner: ubuntu
-
+- name: Uncompress Backend
+  shell: |
+    cd /home//ubuntu/app/
+    tar xvzf backend.tar.gz -C .
+    ls -la
 - name: "Testing env variable"
   debug:
     msg: "My env variable is: '{{ lookup('env', 'TYPEORM_ENTITIES') }}'"
