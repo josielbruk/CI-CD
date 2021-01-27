@@ -374,7 +374,7 @@ jobs:
               echo "Updating existing CloudFront stack..."
               aws cloudformation update-stack \
                 --template-body file://./.circleci/files/cloudfront.yml \
-                --stack-name cloudfront-udapeople \
+                --stack-name udapeople-cloudfront \
                 --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7}
               echo "Saving old workflow id..."
               curl -H "Content-Type: text/plain" -H "token: ce874b2c-9ce6-4944-9e6b-dcfa6830bada" --request PUT --data "${OldWorkflowID}" https://api.memstash.io/values/old_workflow_id
@@ -382,7 +382,7 @@ jobs:
               echo "Creating new CloudFront sack..."
               aws cloudformation create-stack \
                 --template-body file://./.circleci/files/cloudfront.yml \
-                --stack-name cloudfront-udapeople \
+                --stack-name udapeople-cloudfront \
                 --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7}
             fi 
            
