@@ -370,13 +370,11 @@ jobs:
 
             
             aws cloudformation update-stack \
-            --template-body .circleci/files/cloudfront.yml \
             --stack-name udapeople-cloudfront \
-            --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
-            --tags project=udapeople    
-
-
-                      
+            --template-body file://.circleci/files/cloudfront.yml  \
+            --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7} \
+            --tags project=udapeople   
+           
 
       - revert-migrations   
 
