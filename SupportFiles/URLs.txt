@@ -1,5 +1,5 @@
 [URL01] - https://github.com/josielbruk/CI-CD
-[URL02] - http://udapeople-b9dbb8f.s3-website.eu-west-2.amazonaws.com/index.html#/employees
+[URL02] - http://udapeople-13b6cae.s3.eu-west-2.amazonaws.com/index.html#/employees
 [URL03] - dow3wma3g53rp.cloudfront.net
-[URL04] - http://ec2-35-176-76-13.eu-west-2.compute.amazonaws.com:3030/api/status
+[URL04] - ec2-35-178-251-61.eu-west-2.compute.amazonaws.com:3030/api/status
 [URL05] - http://ec2-52-56-32-23.eu-west-2.compute.amazonaws.com
